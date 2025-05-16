@@ -1,0 +1,265 @@
+{% extends "root.html" %}
+
+{% block title %}
+    {{ room.room_type }}
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if messages %}
+    <div class="notification-container">
+        {% for message in messages %}
+            <div class="notification">
+                <p>{{ message }}</p>
+                <button class="close-btn" onclick="this.parentElement.style.display='none'">X</button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="container mt-5" style="margin-top:100px !important;">
+    <div class="row">
+        <!-- Left Column: Product Images -->
+        <div class="col-md-6">
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% if image.image1 %}
+                        <div class="carousel-item active">
+                            <img src="{{image.image1}}" class="d-block w-100 img-fluid" alt="Image 1">
+                        </div>
+                    {% else %}
+                    <div class="carousel-item active">
+                        <img src="static/image/404.png" class="d-block w-100 img-fluid" alt="Image 1">
+                    </div>
+                    {% endif %}
+                    {% if image.image2 %}
+                        <div class="carousel-item">
+                            <img src="{{ image.image2 }}" class="d-block w-100 img-fluid" alt="Image 2">
+                        </div>
+                    {% endif %}
+                    {% if image.image3 %}
+                        <div class="carousel-item">
+                            <img src="{{ image.image3 }}" class="d-block w-100 img-fluid" alt="Image 3">
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        
+
+        <!-- Right Column: Product Information -->
+        <div class="col-md-6">
+            <h1 class="product-title">{{ room.room_type }}</h1>
+            <p class="text-muted">{{ room.room_description}}</p>
+            <p class="availability">
+                space of adults
+                <span class="text-success">
+                    {{room.space_for_adult }}
+                </span>
+            </p>
+            <p class="availability">
+                space of child
+                <span class="text-success">
+                    {{room.space_for_child }}
+                </span>
+            </p>
+            {% if available %}
+            <p class="text-muted" style="color:red !important;">Only {{ available }} are avilable currently</p>
+            {% else %}
+            <p class="text-muted" style="color:red !important;">No rooms avilable</p>
+            {% endif %}
+            <h3 class="text-success" style="color:#d89300 !important;">₹{{ room.price }}</h3>
+            <p class="availability">
+                Availability: 
+                <span class="{% if available %}text-success{% else %}text-danger{% endif %}">
+                    {% if available %}In Stock{% else %}Out of Stock{% endif %}
+                </span>
+            </p>
+            
+            <div class="d-grid gap-2 mt-4">
+                {% if not available %}
+                <a href=""  class="btn btn-danger btn-lg px-4 py-2 rounded-pill shadow-sm" disable>We are all full for these room</a>
+                {% else %}
+                <a href="{% url "booking" room.id %}" class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm" style="background-color:rgb(106, 13, 173);">
+                    Book Now</a>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+    
+    <hr class="my-5">
+
+    <!-- Submit a Review Section -->
+    <div class="col-lg-6 col-md-8 mx-auto mt-4">
+        <div class="review-form bg-light p-3 rounded shadow-sm" style="max-width: 100%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <form method="POST" action="/description_room-{{room.id}}">
+                {% csrf_token %}
+                <h5 class="text-center mb-3">Leave a Comment</h5>
+                <p class="text-center text-muted" style="font-size: 0.9rem; line-height: 1.4;">We love to hear your thoughts! Feel free to comment.</p>
+    
+                <div class="mb-3">
+                    {{ form|crispy }}
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Submit Review" class="btn btn-primary btn-sm">
+                </div>
+            </form>
+        </div>
+    </div>
+    
+<!-- Customer Reviews Section -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <h5 class="mb-3 d-flex justify-content-center"><strong>Customer Reviews</strong></h5>
+            {% if comments %}
+                <div class="reviews">
+                    {% for comment in comments %}
+                        <div class="review mb-3 p-2 rounded bg-light" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                            <h6 class="mb-1">{{ comment.username }}  
+                                <small class="text-muted">- {{ comment.comm_date }}</small>
+                            </h6>
+                            <p class="mt-1 text-muted" style="font-size: 0.9rem;">{{ comment.message }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <p class="text-muted mt-2" style="font-size: 0.9rem;">No reviews yet. Be the first to review this Room!</p>
+                </div>
+            {% endif %} 
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #004d40;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    animation: fadeIn 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #b71c1c;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: #c62828;
+  }
+  
+    .carousel-inner img {
+        width: 100%;
+        height: 370px; /* Maintains aspect ratio */
+        max-height: 500px; /* Set a maximum height */
+        object-fit: cover; /* Crops the image to fit within dimensions */
+        border-radius:10px
+    }
+
+    /* Custom carousel controls */
+    .carousel-control-prev-icon {
+        background-image: url("static/image/left.png");
+    }
+    .carousel-control-next-icon {
+        background-image: url("static/image/right.png");
+    }
+
+    /* Product details styling */
+    .product-title {
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .availability {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .product-details {
+        line-height: 1.6;
+        font-size: 1rem;
+        color: #555;
+    }
+
+    /* Reviews Section Styling */
+    .review {
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+
+    .review h5 {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .review small {
+        font-size: 0.9rem;
+        color: #777;
+    }
+
+    .review p {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    .review-form {
+        border: 1px solid #ddd;
+        background-color: #fff;
+    }
+
+    .review-form h4 {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .review-form .form-control {
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+    }
+
+    .review-form .btn-primary {
+        background-color:rgb(119, 29, 222);
+        border: none;
+    }
+
+    /* Adjust layout for medium and large screens */
+    @media (min-width: 768px) {
+        .reviews {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    }
+{% endblock style %}
+

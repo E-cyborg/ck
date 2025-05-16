@@ -1,0 +1,81 @@
+{% extends 'root.html' %}
+
+{% block title %}Page not found{% endblock title %}
+
+{% block content %}
+<div class="container" style="margin-top:100px; margin-bottom:100px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template text-center">
+                <img src="{{ url_for('static', filename='/image/404.png') }}" 
+                     alt="404 Not Found" 
+                     class="img-fluid" />
+                <h1>Oops!</h1>
+                <h2>404 Not Found</h2>
+                <div class="error-details">
+                    Sorry, an error has occurred, the requested page was not found!
+                </div>
+                <div class="error-actions">
+                    <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-home"></span> Take Me Home
+                    </a>
+                    <a href="#" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-envelope"></span> Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+<style>
+/* Ensure the 404 image is responsive */
+.error-template img {
+    max-width: 100%; /* Restricts image width within its container */
+    height: auto; /* Maintains the original aspect ratio */
+    margin: 0 auto; /* Centers the image horizontally */
+    display: block; /* Ensures block layout for centering */
+}
+
+/* Styling the error template for better layout */
+.error-template {
+    text-align: center;
+    padding: 20px;
+}
+
+.error-details {
+    margin: 20px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.error-actions {
+    margin-top: 20px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .error-template {
+        padding: 10px;
+    }
+
+    .error-template img {
+        width: 80%; /* Reduce image size on small devices */
+    }
+}
+</style>
+{% endblock style %}
+
+{% block check %}
+{% if 'Username' in session %}
+    <div class="login">
+        <a href="{{ url_for('main.user') }}">Profile</a>
+    </div>
+{% else %}
+    <div class="login">
+        <a href="{{ url_for('main.login') }}">Log In</a>
+    </div>
+{% endif %}
+{% endblock check %}

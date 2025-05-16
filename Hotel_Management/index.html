@@ -1,0 +1,305 @@
+{% extends "root.html" %}
+{% block title %}Rooms{% endblock title %}
+{% block content %}
+<div class="container mt-5" style="margin-top:100px !important;">
+    <h1 class="text-center mb-4">Rooms</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% if not rooms %}
+        <div class="container text-center my-5">
+            <p>The server is down.
+                we are working on it
+            </p>
+            <img src="static/image/server down.png" alt="Server Down" class="img-fluid" style="max-width: 100%; height: auto;">
+        </div>
+        {% else %}
+        {% for room in rooms %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img 
+                    id="room-image-{{ room.room_type }}" 
+                    src="static/image/{{ room.room_type }}/1.png" 
+                    data-current-image="1" 
+                    data-room-type="{{ room.room_type }}" 
+                    class="card-img-top" 
+                    alt="{{ room.room_name }}" 
+                    style="object-fit: cover; height: 200px;">
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ room.room_type }}</h5>
+                    <p class="card-text flex-grow-1">{{ room.room_description }}...</p>
+                    <p class="text-success fw-bold">₹{{ room.price }}/night</p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <a href="#" 
+                           class="btn btn-custom btn-primary flex-grow-1 me-2">Buy Now</a>
+                        <a href="#" 
+                           class="btn btn-custom btn-outline-secondary flex-grow-1" 
+                           data-bs-toggle="tooltip" data-bs-placement="top" title="More Details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                    
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+{% comment %} smouth image changing {% endcomment %}
+
+
+.btn-custom i {
+    font-size: 1.25rem;
+}
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #004d40;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    animation: fadeIn 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #b71c1c;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: #c62828;
+  }
+  
+    /* For card images to maintain aspect ratio and fit the space */
+    .card-img-top {
+        object-fit: cover;
+        height: 200px;
+    }
+
+    /* Add consistent spacing between cards */
+   
+    /* Enhanced Button Styles */
+    .btn-custom {
+        background-color:rgb(94, 94, 94); /* Vibrant orange */
+        border: none;
+        color: #fff; /* White text */
+        font-size: 1rem; /* Slightly larger font */
+        font-weight: bold; /* Bold font for emphasis */
+        padding: 0.5rem 1rem; /* Add padding */
+        border-radius: 30px; /* Make buttons pill-shaped */
+        transition: all 0.3s ease-in-out;
+        margin-bottom:10px;
+        text-transform: uppercase; /* Capitalized text for a clean look */
+    }
+
+    /* Hover Effect */
+    .btn-custom:hover {
+        background-color:rgb(168, 137, 14); /* Darker orange */
+        transform: translateY(-3px); /* Lift on hover */
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    }
+
+    /* Active State */
+    .btn-custom:active {
+        background-color:rgb(0, 0, 0); /* Even darker orange for active state */
+        transform: translateY(0); /* Remove lift effect */
+        box-shadow: none; /* Flatten appearance */
+    }
+
+    /* Full-width Buttons on Small Screens */
+    @media (max-width: 576px) {
+        .btn-custom {
+            width: 100%; /* Full-width on small screens */
+            margin-bottom: 0.5rem; /* Add spacing between buttons */
+        }
+    }
+
+    /* Responsive typography adjustments */
+    h1 {
+        font-size: calc(1.5rem + 1vw);
+    }
+
+    /* Buttons should stack neatly on small screens */
+    .btn-block {
+        width: 100%;
+    }
+
+    /* Additional responsive tweaks for better layout */
+    @media (max-width: 576px) {
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+    }
+    .room-details .text-success {
+        font-size: 18px;
+        font-weight: bold;
+        color:#e3aa49 !important;
+    }
+
+{% endblock style %}
+
+{% block script %}
+{% comment %} updating the image after 2 seconds {% endcomment %}
+    function updateRoomImage(roomType, imageElement) {
+        // Get the current image index
+        let currentImageIndex = parseInt(imageElement.getAttribute("data-current-image")) || 1;
+
+        // Increment the image index
+        currentImageIndex++;
+
+        // Construct the new image path
+        const newImagePath = `/static/image/${roomType}/${currentImageIndex}.png`;
+
+        // Check if the new image exists
+        const img = new Image();
+        img.onload = () => {
+            // If the image exists, update the src and the data attribute
+            imageElement.src = newImagePath;
+            imageElement.setAttribute("data-current-image", currentImageIndex);
+        };
+        img.onerror = () => {
+            // If the image doesn't exist, reset to 1.png
+            imageElement.src = `/static/image/${roomType}/1.png`;
+            imageElement.setAttribute("data-current-image", 1);
+        };
+
+        // Attempt to load the new image
+        img.src = newImagePath;
+    }
+
+    // Initialize the image updater for all room images
+    document.addEventListener("DOMContentLoaded", () => {
+        const roomImages = document.querySelectorAll("[id^='room-image-']");
+
+        roomImages.forEach(imageElement => {
+            const roomType = imageElement.getAttribute("data-room-type");
+
+            // Update the image every 2 seconds
+            setInterval(() => {
+                updateRoomImage(roomType, imageElement);
+            }, 3000);
+        });
+    });
+
+{% endblock script %}
+
+
+
+{% if user.is_authenticated %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    class="form-control"
+                                    placeholder="Enter your username"
+                                />
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    class="form-control"
+                                    placeholder="Enter your email"
+                                />
+                            </div>
+                            {% else %}
+                            
+                            <!-- If user is not logged in -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    class="form-control"
+                                    placeholder="Enter your username"
+                                />
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter your email"
+                                />
+                            </div>
+                            {% endif %}
+                            <!-- Subject Field -->
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    name="subject"
+                                    class="form-control"
+                                    placeholder="Subject"
+                                />
+                            </div>
+                        
+                            <!-- Message Field -->
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    class="form-control"
+                                    placeholder="Write your message"
+                                    style="max-height:150px;"
+                                ></textarea>
+                            </div>
+                            <!-- Submit Button -->
+                            <div>
+
+
+
+
+
+
+<div class="form-group">
+    <label>Password</label>
+    <div class="input-group" id="show_hide_password">
+      <input class="form-control" type="password">
+      <div class="input-group-addon">
+        <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+      </div>
+    </div>
+    
+  </div>

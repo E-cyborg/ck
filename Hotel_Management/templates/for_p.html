@@ -1,0 +1,80 @@
+{% extends "root.html" %}
+{% block title %}Forget Password{% endblock %}
+
+{% block style %}
+    .password-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        background-color: #f8f9fa;
+    }
+
+    .password-form {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .messages {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .messages li {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+{% endblock style %}
+
+{% block content %}
+<div class="password-container" style="margin-top:100px">
+    <div class="password-form">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="messages">
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ 'success' if category == 'success' else 'danger' }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% endwith %}
+        
+        <h2 class="mb-4">Forgot Your Password?</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                <label for="email" class="form-label">Enter Your Email</label>
+                {{ form.Email(class="form-control", placeholder="Enter your registered email", autocomplete="email") }}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Send PIN</button>
+        </form>
+        
+    </div>
+</div>
+{% endblock content %}

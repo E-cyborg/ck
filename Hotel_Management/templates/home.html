@@ -1,0 +1,668 @@
+{% extends "root.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+
+<div class="container-fluid p-0 mb-5" >
+    <!-- Owl Carousel -->
+    <div class="owl-carousel header-carousel position-relative" style="z-index: 1;">
+        <!-- First Slide -->    
+        <div class="owl-carousel-item position-relative">   
+            <div class="owl-carousel-item">
+                <video class="img-fluid" autoplay loop muted playsinline>
+                    <source src="static/videos/1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+            </div>
+            <div class="carousel-overlay d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-sm-10 col-lg-8">
+                            <h5 class="text-highlight text-uppercase mb-3 animated fadeInDown">Best Room</h5>
+                            <h1 class="display-3 text-white font-weight-bold animated fadeInDown">Discover A Brand Luxurious Hotel</h1>
+                            <p class="fs-5 text-white mb-4 pb-2 animated fadeInUp">
+                                Experience unmatched luxury and comfort with our premium hotel rooms designed to suit your needs.
+                            </p>
+                            <a href="" class="btn btn-custom-primary py-md-3 px-md-5 me-3 animated fadeInLeft">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Slide -->
+        <div class="owl-carousel-item position-relative">
+            <div class="owl-carousel-item">
+                
+                <img src="static/images/2.jpg" class="img-fluid"/>
+                
+            </div>
+            
+            
+            
+            <div class="carousel-overlay d-flex align-items-center">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-sm-10 col-lg-8">
+                            <h5 class="text-highlight text-uppercase mb-3 animated fadeInDown">Best Experience</h5>
+                            <h1 class="display-3 text-white font-weight-bold animated fadeInDown">Your Perfect Vacation Awaits</h1>
+                            <p class="fs-5 text-white mb-4 pb-2 animated fadeInUp">
+                                Unwind in style and let us take care of your every need during your stay.
+                            </p>
+                            <a href="#" class="btn btn-custom-primary py-md-3 px-md-5 me-3 animated fadeInLeft">Explore More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Hotel Features Section -->
+<section id="features" class="features-section py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="section-title mb-5">Why Choose Us?</h2>
+                <p class="lead mb-4">Discover luxury, comfort, and convenience with our exceptional hotel experience. Here’s why our guests keep coming back for more.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <!-- Feature 1: Luxurious Rooms -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="feature-card p-4 shadow-lg rounded-lg text-center bg-white hover-effect">
+                    <i class="bi bi-house-door-fill fs-3 mb-3 text-primary"></i>
+                    <h4 class="mb-3">Luxurious Rooms</h4>
+                    <p>Relax and unwind in our elegantly designed rooms equipped with premium amenities and stunning views.</p>
+                </div>
+            </div>
+
+            <!-- Feature 2: High-Speed Wi-Fi -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="feature-card p-4 shadow-lg rounded-lg text-center bg-white hover-effect">
+                    <i class="bi bi-wifi fs-3 mb-3 text-primary"></i>
+                    <h4 class="mb-3">High-Speed Wi-Fi</h4>
+                    <p>Stay connected with fast and free Wi-Fi throughout the hotel. Perfect for both work and play.</p>
+                </div>
+            </div>
+
+            <!-- Feature 3: Relaxing Amenities -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="feature-card p-4 shadow-lg rounded-lg text-center bg-white hover-effect">
+                    <i class="bi bi-pool fs-3 mb-3 text-primary"></i>
+                    <h4 class="mb-3">Relaxing Amenities</h4>
+                    <p>Indulge in our luxurious spa, refreshing pool, and state-of-the-art fitness center for the ultimate relaxation experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col text-center">
+                <a href="#" class="btn btn-custom-primary py-3 px-5 mt-4">Book Your Stay Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="gallery" class="gallery-section">
+    <div class="container">
+        <h2 class="section-title d-flex justify-content-center">Hotel Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="static/images/10.jpg" alt="Luxury Room" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Luxury Room</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/main.jpg" alt="Pool Area" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Pool Area</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/images/2.jpg" alt="Restaurant" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Beautiful view</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/images/15.jpg" alt="Lobby" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">View you Get</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Suite1.jpg" alt="Spa" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Spa</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Suite2.jpg" alt="Conference Room" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Conference Room</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="container mt-5" style="margin-top:100px !important;">
+    <h1 class="text-center mb-4">Rooms</h1>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% if not rooms %}
+        <div class="container text-center my-5">
+            <p>The server is down.
+                we are working on it
+            </p>
+            <img src="static/image/server down.png" alt="Server Down" class="img-fluid" style="max-width: 100%; height: auto;">
+        </div>
+        {% else %}
+        {% for room in rooms %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img 
+        id="room-image-{{ room.room_type }}" 
+        src="/static/image/{{ room.room_type }}/1.png" 
+        data-current-image="1" 
+        data-room-type="{{ room.room_type }}" 
+        class="card-img-top fade" 
+        alt="{{ room.room_name }}" 
+        style="object-fit: cover; height: 200px; width: 100%;">
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ room.room_type }}</h5>
+                    <p class="card-text flex-grow-1">{{ room.room_description }}...</p>
+                    <p class="text-success fw-bold">₹{{ room.price }}/night</p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <a href="/booking-{{room.id}}"
+                           class="btn btn-custom btn-primary flex-grow-1 me-2">Buy Now</a>
+                        <a href="{% url 'details_room' room.id %}" 
+                           class="btn btn-custom btn-outline-secondary flex-grow-1" 
+                           data-bs-toggle="tooltip" data-bs-placement="top" title="More Details">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                    
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        
+    </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+.btn-custom:active {
+    background-color: black !important;
+}
+
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #004d40;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    animation: fadeIn 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #b71c1c;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: #c62828;
+  }
+  /* Default Image and Video Styling */
+  .owl-carousel .owl-carousel-item img,
+  .owl-carousel-item video {
+      width: 100%;
+      height: 100vh; /* Ensures full viewport height */
+      object-fit: cover; /* Crops to fit container */
+  }
+  
+  /* For Tablets and Smaller Screens */
+  @media (max-width: 768px) {
+      .owl-carousel .owl-carousel-item img {
+          height: 90vh; /* Slightly reduced height for better fit */
+      }
+      .owl-carousel-item video {
+          height: 90vh; /* Matches image height */
+      }
+  }
+  
+  /* For Very Small Devices */
+  @media (max-width: 576px) {
+      .owl-carousel .owl-carousel-item img,
+      .owl-carousel-item video {
+          height: 90vh; /* Consistent height across images & videos */
+      }
+  }
+  
+
+/* For card images to maintain aspect ratio and fit the space */
+    .card-img-top {
+        object-fit: cover;
+        height: 200px;
+    }
+
+    /* Add consistent spacing between cards */
+   
+    .btn-custom {
+        background-color: #ff5722; /* A vibrant orange color */
+        border: none;             /* Remove border */
+        transition: all 0.3s ease-in-out;
+        font-size: 1rem;          /* Increase font size */
+        font-weight: bold;        /* Make text bold */
+        border-radius: 8px;       /* Rounded corners */
+    }
+    
+    /* Hover effect for the button */
+    .btn-custom:hover {
+        background-color: #e64a19; /* Slightly darker orange */
+        transform: scale(1.05);    /* Subtle zoom-in effect */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    }
+    
+    /* Full-width button on small screens */
+    @media (max-width: 576px) {
+        .btn-custom {
+            width: 100%;
+        }
+    }
+    /* Responsive typography adjustments */
+    h1 {
+        font-size: calc(1.5rem + 1vw);
+    }
+
+    /* Buttons should stack neatly on small screens */
+    .btn-block {
+        width: 100%;
+    }
+
+    /* Additional responsive tweaks for better layout */
+    @media (max-width: 576px) {
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+        }
+    }
+    .room-details .text-success {
+        font-size: 18px;
+        font-weight: bold;
+        color:#e3aa49 !important;
+    }
+/* Global Styles */
+
+
+/* Gallery Section */
+.gallery-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+
+
+.section-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.gallery-item {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height:300px;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+/* Carousel Overlay */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Carousel Overlay */
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(24, 29, 56, 0s) 0%, rgba(0, 0, 0, 0.5) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left; /* Align text to the left by default */
+    padding: 15px; /* Reduce padding for smaller screens */
+    z-index: 2;
+}
+
+/* Headings and Text */
+.text-highlight {
+    color: #ffd700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+h1.display-3 {
+    font-size: 3rem;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+
+/* Responsive Typography */
+.text-highlight {
+    font-size: 1rem; /* Smaller text for smaller devices */
+    letter-spacing: 1.5px;
+}
+
+h1.display-3 {
+    font-size: 2rem; /* Smaller heading for small screens */
+    line-height: 1.3;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 768px) {
+    h1.display-3 {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 992px) {
+    h1.display-3 {
+        font-size: 4.5rem;
+    }
+}
+/* Buttons Full Width on Small Screens */
+@media (max-width: 576px) {
+    .btn-custom-primary {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px; /* Space between buttons */
+    }
+}
+
+
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .carousel-overlay {
+        text-align: center; /* Center align content on small screens */
+    }
+
+    .carousel-overlay .row {
+        justify-content: center; /* Center the row */
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-overlay .col-sm-10 {
+        padding: 0; /* Remove extra padding */
+    }
+}
+
+.fs-5 {
+    font-size: 1rem; /* Reduce text size for smaller screens */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Buttons */
+.btn-custom-primary {
+    background-color: #ff5722;
+    border: none;
+    color: white;
+    font-size: 0.9rem; /* Reduce button font size */
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-custom-primary:hover {
+    background-color: #e64a19;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color:rgb(43, 88, 152);
+    border-color: #1d3557;
+    color: #f1faee;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color:rgb(50, 70, 83);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* Animations */
+.animated {
+    animation-duration: 1.2s;
+    animation-fill-mode: both;
+}
+
+.fadeInDown {
+    animation-name: fadeInDown;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+}
+}
+{% endblock style %}
+
+{% block script %}
+
+    
+$(".header-carousel").owlCarousel({
+    autoplay: true,
+    smartSpeed: 1000,
+    autoplayTimeout: 20000,
+    items: 1,
+    dots: true,
+    loop: true,
+    nav: false,
+    responsive: {
+        0: { items: 1 },    // Small devices
+        768: { items: 1 },  // Medium devices
+        1024: { items: 1 }  // Larger screens
+    }
+});
+
+
+// Set minimum datetime-local value
+document.addEventListener("DOMContentLoaded", function () {
+    const now = new Date();
+    const formattedDate = now.toISOString().slice(0, 16);
+    document.getElementById("from_date").min = formattedDate;
+});
+
+function updateRoomImageSmoothly(imageElement) {
+    const roomType = imageElement.getAttribute("data-room-type");
+    let currentImageIndex = parseInt(imageElement.getAttribute("data-current-image")) || 1;
+
+    // Increment the image index
+    currentImageIndex++;
+
+    // Construct the new image path
+    const newImagePath = `/static/image/${roomType}/${currentImageIndex}.png`;
+
+    // Preload the next image
+    const img = new Image();
+    img.onload = () => {
+        // When the new image is loaded, transition the image
+        imageElement.style.transition = "opacity 0.5s ease-in-out";
+        imageElement.style.opacity = "0.5"; // Fade out the current image
+
+        setTimeout(() => {
+            // Change the image source
+            imageElement.src = newImagePath;
+            imageElement.setAttribute("data-current-image", currentImageIndex);
+
+            // Fade in the new image
+            imageElement.style.opacity = "1";
+        }, 500); // Match the transition duration
+    };
+
+    img.onerror = () => {
+        // If the image doesn't exist, reset to 1.png
+        console.error(`Image not found: ${newImagePath}`);
+        imageElement.style.transition = "opacity 0.5s ease-in-out";
+        imageElement.style.opacity = "0";
+
+        setTimeout(() => {
+            imageElement.src = `/static/image/${roomType}/1.png`;
+            imageElement.setAttribute("data-current-image", 1);
+
+            imageElement.style.opacity = "1";
+        }, 500);
+    };
+
+    // Attempt to load the new image
+    img.src = newImagePath;
+}
+
+// Initialize image updater for all room images
+document.addEventListener("DOMContentLoaded", () => {
+    const roomImages = document.querySelectorAll("[id^='room-image-']");
+
+    roomImages.forEach(imageElement => {
+        // Ensure the image starts fully visible after loading
+        const initialImage = new Image();
+        initialImage.onload = () => {
+            imageElement.style.opacity = "1"; // Show the image once loaded
+        };
+        initialImage.src = imageElement.src;
+
+        // Start the interval to update images
+        setInterval(() => {
+            updateRoomImageSmoothly(imageElement);
+        }, 3000);
+    });
+});
+
+{% endblock script %}

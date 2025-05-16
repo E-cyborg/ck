@@ -1,0 +1,942 @@
+{% extends 'root.html' %}
+
+{% block title %}
+Book Your Room
+{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div style="margin-top:100px;">
+    <div class="container1 mt-5">
+    
+    
+    <div class="room-details">
+        <!-- Room Name and Image -->
+        <div class="card horizontal-card mb-4">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/static/image/{{room.room_type}}/1.png"
+                         class="img-fluid rounded-start"
+                         alt="{{ room.room_type }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ room.room_type }}</h5>
+                        <p class="card-text">{{ room.room_description }}</p>
+                        <p class="text-success h5"><strong>₹{{ room.price }}</strong>/night</p>
+                    </div>
+                    <!-- Change Room Button Outside the Card Body -->
+                    <div class="card-footer text-center">
+                        <a href="{% url "room" %}"><button class="btn btn-primary" type="button">Change Room</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <form method="POST" action="#">
+    <div class="date-selection-container bg-white shadow" style="padding: 35px; display: flex; justify-content: center;">
+        <div class="row g-3">
+            <!-- From Date -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="from_date" class="form-label">From Date</label>
+                    {{form.from_date}}
+                </div>
+            </div>
+            <!-- To Date -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="to_date" class="form-label">To Date</label>
+                    {{form.TO_date}}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Your Details Form -->
+    <div class="booking-section">
+        <!-- Container for both forms -->
+        <div class="details-and-controllers">
+            <!-- Room Controls Section -->
+            <div class="room-controls-container">
+                <h2 class="form-title">Room Booking</h2>
+
+                <!-- Room Controls -->
+                <div class="room-controls mb-3">
+                    <button type="button" onclick="updateRoomCount(-1)">-</button>
+                    <input type="text" id="room-count" value="1" name="room_count" readonly>
+                    <button type="button" onclick="updateRoomCount(1)">+</button>
+                </div>
+                <!-- Room Container -->
+                <div id="room-container1">
+                    <div class="room" id="room-1">
+                        <div class="room-header">
+                            <span>Room 1</span>
+                            <button type="button" class="remove-room-btn" onclick="removeRoom(1)">REMOVE</button>
+                        </div>
+                        <div class="capacity">
+                            <div class="control-group">
+                                <label>Nº of adults</label>
+                                <div class="control-buttons">
+                                    <button type="button" onclick="updateAdults(1, -1)">-</button>
+                                    <input type="text" id="adult-count-1" value="2" readonly name="ra-1">
+                                    <button type="button" onclick="updateAdults(1, 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label>Nº of children <span>(Up to 12 years old)</span></label>
+                                <div class="control-buttons">
+                                    <button type="button" onclick="updateChildren(1, -1)">-</button>
+                                    <input type="text" id="child-count-1" value="0" name="rc-1" readonly>
+                                    <button type="button" onclick="updateChildren(1, 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Action Buttons -->
+                <button type="button" class="add-room-btn" onclick="addNewRoom()">ADD NEW ROOM</button>
+            </div>
+            <!-- Add Your Details Form -->
+            <div class="form details-form">
+                <h2 class="form-title">Add Your Details</h2>
+                <!-- First Name and Last Name -->
+                
+                    {% csrf_token %}
+                    
+                    <!-- Title Selection -->
+                    <div class="input-group">
+                        <label for="title">Title:<span style="color:red;">*</span></label>
+                        <div class="radio-group">
+                            {{ form.title}}  <!-- Use form.title, not from.title -->
+                        </div>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="first-name">Name:<span style="color:red;">*</span></label>
+                            {{ form.name }}  <!-- Use form.name -->
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="input-group">
+                        <label for="email">Email:<span style="color:red;">*</span></label>
+                        {{ form.email }}  <!-- Use form.email -->
+                    </div>
+                    
+                    <!-- Country or Region & Phone -->
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="country">Country or Region:<span style="color:red;">*</span></label>
+                            {{ form.country }}  <!-- Use form.country -->
+                        </div>
+                        <div class="input-group">
+                            <label for="phone">Phone Number:<span style="color:red;">*</span></label>
+                            {{ form.phone }}  <!-- Use form.phone -->
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                     {% if available_rooms %}
+                     <button class="done-btn" type="Submit" name="submit">Procced To Pay</button>
+                     {% else %}
+                     <a href="{% url "room" %}"><button type="button" class="done-btn">We are all fill for these rooms check other rooms</button></a>
+                     {% endif %}
+                    </form>
+                
+            
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block style %}
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+  }
+  
+  .notification {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #004d40;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    animation: fadeIn 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #b71c1c;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .close-btn:hover {
+    color: #c62828;
+  }
+  
+/* Additional CSS Enhancements */
+
+/* Improve Button Hover Effects */
+button, .btn-primary {
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover, .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(47, 28, 28, 0.2);
+}
+
+/* Add Padding to Containers */
+.container1 {
+    padding: 30px;
+}
+
+/* Enhance Input Field Appearance */
+input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Add Subtle Box Shadows for Cards */
+.card {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Style Headers for Better Readability */
+h2.form-title, .room-header span {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Spacing Between Sections */
+.date-selection-container,
+.details-form,
+.room-controls-container {
+    margin-bottom: 20px;
+}
+
+/* Improve Buttons for Adding/Removing Rooms */
+.add-room-btn, .remove-room-btn, .done-btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.add-room-btn:hover, .remove-room-btn:hover, .done-btn:hover {
+    background-color:rgb(179, 0, 0);
+    transform: scale(1.05);
+}
+
+/* Optimize for Mobile Devices */
+@media (max-width: 576px) {
+    .input-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .details-and-controllers {
+        flex-direction: column;
+    }
+
+    .room-controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .control-buttons {
+        gap: 5px;
+    }
+
+    .remove-room-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+/* Styling for date-selection-container */
+.date-selection-container {
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 700px;
+    margin: 20px auto;
+    background: #f9f9f9;
+}
+
+/* Labels */
+.date-selection-container .form-label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Input fields */
+.date-selection-container .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    color: #555;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.date-selection-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive Grid */
+.date-selection-container .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.date-selection-container .col-md-6 {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Background and shadow for container */
+.date-selection-container {
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Button Style */
+.btn-primary {
+    background-color: #4B0082; /* Matches the Indigo color of the heading for consistency */
+    border-color: #4B0082;
+    color: white;
+    font-size: 18px; /* Slightly larger text for better emphasis */
+    font-weight: 600; /* Semi-bold for a premium feel */
+    padding: 10px 20px; /* Better spacing for a balanced look */
+    border-radius: 8px; /* Rounded corners for elegance */
+    font-family: 'Poppins', sans-serif; /* Matches the modern font */
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.btn-primary:hover {
+    background-color: #6A0DAD; /* Lighter indigo for hover effect */
+    border-color: #5A009F; /* Complementary border color */
+    color: #FFF8DC; /* Soft cream for contrast */
+    transform: translateY(-2px); /* Slight lift effect for interactivity */
+}
+
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container1 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Titles and Headings */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Room Details Section */
+.room-details .card {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.room-details img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.room-details .card-body {
+    padding: 15px;
+}
+
+.room-details .card-title {
+    font-size: 24px; /* Larger for prominence */
+    font-weight: 700; /* Stronger emphasis without being too heavy */
+    margin-bottom: 12px; /* Slightly more space for better separation */
+    color: #4B0082; /* Indigo for a rich, premium look */
+    font-family: 'Georgia', serif; /* Classic serif font for sophistication */
+    text-transform: none; /* Retains original text case */
+    letter-spacing: 0.5px; /* Adds slight spacing for refinement */
+}
+
+
+.room-details .card-text {
+    font-size: 16px; /* Slightly larger for better readability */
+    color: #2F4F4F; /* Dark Slate Gray for a subtle, premium touch */
+    font-family: 'Poppins', sans-serif; /* Matches the modern theme */
+    line-height: 1.6; /* Increased for easier readability */
+    margin-bottom: 10px; /* Adds spacing to separate content nicely */
+}
+
+
+.room-details .text-success {
+    font-size: 18px;
+    font-weight: bold;
+    color:#e3aa49 !important;
+}
+
+/* User Details Form */
+.form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 400;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color:rgb(255, 0, 0);
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Booking Section */
+.booking-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.booking-section h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Room Controls */
+.room-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.room-controls button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    font-size: 20px;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.room-controls button:hover {
+    background-color: #e0e0e0;
+}
+
+.room-controls input {
+    width: 60px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #fff;
+}
+
+/* Individual Room */
+.room {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #fafafa;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.remove-room-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    width: 90px;
+    height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.remove-room-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Capacity Controls */
+.control-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.control-group label {
+    flex: 1;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.control-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-buttons button {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.control-buttons button:hover {
+    background-color: #f0f0f0;
+}
+
+.control-buttons input {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #fff;
+}
+
+/* Add Room and Done Buttons */
+.add-room-btn,
+.done-btn {
+    width: 100%;
+    padding: 14px 0; /* Slightly larger padding for a more substantial look */
+    font-size: 18px; /* Larger text for emphasis */
+    color: white;
+    background-color: #4B0082; /* Indigo for a luxurious feel */
+    border: none;
+    border-radius: 10px; /* Softer rounded edges for elegance */
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: 600; /* Semi-bold for premium touch */
+    font-family: 'Poppins', sans-serif; /* Matches the modern theme */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle depth */
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.add-room-btn:hover,
+.done-btn:hover {
+    background-color: #6A0DAD; /* Lighter indigo for hover effect */
+    transform: translateY(-2px); /* Slight lift effect for interactivity */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .room-details .card {
+        flex-direction: column;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    .room-controls {
+        flex-wrap: wrap;
+    }
+
+    .control-group {
+        flex-wrap: wrap;
+    }
+
+    .form, .booking-section {
+        padding: 15px;
+    }
+}
+/* General styling for the room section */
+.booking-section {
+    width: 100%; /* Ensure it takes up full width */
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Container for both Add Your Details and Room Controllers */
+.details-and-controllers {
+    display: flex;
+    flex-wrap: wrap; /* Allows stacking on smaller devices */
+    gap: 20px; /* Space between sections */
+}
+
+.details-form, .room-controls-container {
+    flex: 1; /* Equal width on larger screens */
+    min-width: 250px; /* Minimum width for smaller screens */
+    box-sizing: border-box;
+}
+
+/* Styling for Room Controllers */
+.room-controls-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .details-and-controllers {
+        flex-direction: column; /* Stack vertically */
+    }
+}
+
+.details-and-booking {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+{% endblock style %}
+
+
+{% block script %}
+let roomCount = 1; // Initial number of rooms
+const maxRooms = {{ available_rooms }}; // Maximum number of rooms allowed
+const maxPeoplePerRoom = {{ room.space_for_adult}} + {{ room.space_for_child}};
+const maxChildrenWithOneAdult = {{room.space_for_child}};
+
+function updateRoomCount(delta) {
+    const roomInput = document.getElementById("room-count");
+    let currentRooms = parseInt(roomInput.value);
+    let newRoomCount = currentRooms + delta;
+
+    if (newRoomCount > maxRooms) {
+        alert(`We have only ${maxRooms} rooms left.`);
+        return;
+    }
+
+    if (newRoomCount < 1) {
+        alert(`You must book at least 1 room.`);
+        return;
+    }
+
+    // Update the room count
+    roomInput.value = newRoomCount;
+
+    if (delta > 0) {
+        addNewRoom();
+    } else if (delta < 0) {
+        removeRoom(roomCount); // Remove the last room
+    }
+}
+
+function addNewRoom() {
+    if (roomCount >= maxRooms) {
+        alert(`You can only add up to ${maxRooms} rooms.`);
+        return;
+    }
+
+    roomCount++;
+    const roomContainer = document.getElementById("room-container1");
+
+    const newRoom = document.createElement("div");
+    newRoom.classList.add("room"); // Add the "room" class
+    newRoom.id = `room-${roomCount}`; // Set the ID for the room
+
+    // Set the inner HTML with proper structure and classes
+    newRoom.innerHTML = `
+        <div class="room-header">
+            <span>Room ${roomCount}</span>
+            <button type="button" class="remove-room-btn" onclick="removeRoom(${roomCount})">REMOVE</button>
+        </div>
+        <div class="capacity">
+            <div class="control-group">
+                <label>Nº of adults</label>
+                <div class="control-buttons">
+                    <button type="button" onclick="updateAdults(${roomCount}, -1)">-</button>
+                    <input type="text" id="adult-count-${roomCount}" value="2" name= "adult_c-${roomCount}" readonly>
+                    <button type="button" onclick="updateAdults(${roomCount}, 1)">+</button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label>Nº of children <span>(Up to 12 years old)</span></label>
+                <div class="control-buttons">
+                    <button type="button" onclick="updateChildren(${roomCount}, -1)">-</button>
+                    <input type="text" id="child-count-${roomCount}" name="child_c-${roomCount}" value="0" readonly>
+                    <button type="button" onclick="updateChildren(${roomCount}, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append the new room to the container
+    roomContainer.appendChild(newRoom);
+
+    // Update the room count in the input field
+    document.getElementById("room-count").value = roomCount;
+}
+
+function removeRoom(roomId) {
+    if (roomCount <= 1) {
+        alert("You must have at least one room.");
+        return;
+    }
+
+    const roomToRemove = document.getElementById(`room-${roomId}`);
+    if (roomToRemove) {
+        roomToRemove.remove();
+        roomCount--;
+
+        // Update room numbers for all remaining rooms
+        const remainingRooms = document.querySelectorAll(".room");
+        let index = 0;
+        remainingRooms.forEach((room) => {
+            index++;
+            room.id = `room-${index}`;
+            room.querySelector(".room-header span").textContent = `Room ${index}`;
+            room.querySelector(".remove-room-btn").setAttribute("onclick", `removeRoom(${index})`);
+            room.querySelectorAll("button").forEach((btn) => {
+                btn.setAttribute("onclick", btn.getAttribute("onclick").replace(/\d+/, index));
+            });
+        });
+
+        // Update the room count display
+        document.getElementById("room-count").value = index;
+        roomCount = index;
+    }
+}
+
+function updateAdults(roomId, delta) {
+    const adultInput = document.getElementById(`adult-count-${roomId}`);
+    const childInput = document.getElementById(`child-count-${roomId}`);
+    const currentAdults = parseInt(adultInput.value);
+    const currentChildren = parseInt(childInput.value);
+
+    let newAdults = Math.max(1, currentAdults + delta);
+    let totalPeople = newAdults + currentChildren;
+
+    if (totalPeople > maxPeoplePerRoom) {
+        newAdults -= 1;
+        alert(`Maximum ${maxPeoplePerRoom} people per room.`);
+    }
+
+    adultInput.value = newAdults;
+
+    // Restrict children when adults are 1
+    if (newAdults === 1 && currentChildren > maxChildrenWithOneAdult) {
+        childInput.value = maxChildrenWithOneAdult;
+        alert(`Only ${maxChildrenWithOneAdult} children allowed when 1 adult.`);
+    }
+}
+
+function updateChildren(roomId, delta) {
+    const adultInput = document.getElementById(`adult-count-${roomId}`);
+    const childInput = document.getElementById(`child-count-${roomId}`);
+    const currentAdults = parseInt(adultInput.value);
+    const currentChildren = parseInt(childInput.value);
+
+    let newChildren = Math.max(0, currentChildren + delta);
+    let totalPeople = currentAdults + newChildren;
+
+    if (totalPeople > maxPeoplePerRoom) {
+        newChildren -= 1;
+        alert(`Maximum ${maxPeoplePerRoom} people per room.`);
+    }
+
+    if (currentAdults === 1 && newChildren > maxChildrenWithOneAdult) {
+        newChildren = maxChildrenWithOneAdult;
+        alert(`Only ${maxChildrenWithOneAdult} children allowed.`);
+    }
+
+    childInput.value = newChildren;
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const fromDateInput = document.getElementById("from_date");
+    const toDateInput = document.getElementById("to_date");
+
+    // Get the current date
+    const now = new Date();
+    const oneYearFromNow = new Date();
+    oneYearFromNow.setFullYear(now.getFullYear() + 1);
+
+    // Format the date to 'YYYY-MM-DD'
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    };
+
+    // Set default values
+    fromDateInput.value = formatDate(now);
+
+    // Set "To Date" to 1 day ahead
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    toDateInput.value = formatDate(tomorrow);
+
+    // Set the min and max attributes for both inputs
+    fromDateInput.min = formatDate(now);
+    fromDateInput.max = formatDate(oneYearFromNow);
+
+    toDateInput.min = formatDate(tomorrow);
+    toDateInput.max = formatDate(oneYearFromNow);
+
+    // Add event listeners to enforce restrictions
+    fromDateInput.addEventListener("change", function () {
+        const fromDateValue = new Date(fromDateInput.value);
+        const maxToDate = new Date(fromDateValue);
+        maxToDate.setDate(maxToDate.getDate() + 60); // 60 days from selected "from date"
+
+        // Restrict "To Date" based on the selected "From Date"
+        toDateInput.min = formatDate(new Date(fromDateValue.getTime() + 24 * 60 * 60 * 1000)); // At least 1 day ahead
+        toDateInput.max = Math.min(maxToDate, oneYearFromNow) === maxToDate
+            ? formatDate(maxToDate)
+            : formatDate(oneYearFromNow);
+
+        // Auto-adjust "To Date" if it is out of range
+        if (new Date(toDateInput.value) > new Date(toDateInput.max)) {
+            toDateInput.value = toDateInput.max;
+        } else if (new Date(toDateInput.value) < new Date(toDateInput.min)) {
+            toDateInput.value = toDateInput.min;
+        }
+    });
+
+    toDateInput.addEventListener("change", function () {
+        const toDateValue = new Date(toDateInput.value);
+
+        // Restrict "To Date" to not be less than "From Date + 1"
+        if (toDateValue < new Date(fromDateInput.min)) {
+            toDateInput.value = toDateInput.min;
+        }
+    });
+});
+  
+
+  
+
+{% endblock script %}
+
+

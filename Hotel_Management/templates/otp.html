@@ -1,0 +1,69 @@
+{% extends "root.html" %}
+{% block title %}Verify PIN{% endblock %}
+
+{% block style %}
+    /* Custom styling specific to the PIN entry page */
+    .pin-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+    }
+    
+    .pin-form {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .messages {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    
+    .messages li {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+{% endblock style %}
+
+{% block content %}
+{% if messages %}
+      <div class="notification-container">
+          {% for message in messages %}
+              <div class="notification">
+                  <p>{{ message }}</p>
+                  <button class="close-btn" onclick="this.parentElement.style.display='none'">X</button>
+              </div>
+          {% endfor %}
+      </div>
+  {% endif %}
+<div class="pin-container">
+    <div class="pin-form">
+        <h2 class="mb-4">Enter the PIN sent to your email</h2>
+        <form method="POST" action="{% url "otp_verify" %}">
+            {{form}}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary w-100">Verify</button>
+        </form>
+        
+        
+    </div>
+</div>
+{% endblock content %}

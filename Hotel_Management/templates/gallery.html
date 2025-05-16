@@ -1,0 +1,119 @@
+{% extends "root.html" %}
+{% block content %}
+
+<section id="gallery" class="gallery-section" style="margin-top:50px;">
+    <div class="container">
+        <h2 class="section-title">Hotel Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="static/image/Deluxe/3.png" alt="Luxury Room" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Luxury Room</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static\image\main.jpg" alt="Pool Area" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Pool Area</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Deluxe2.webp" alt="Restaurant" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Restaurant</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Deluxe.webp" alt="Lobby" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Lobby</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Suite1.jpg" alt="Spa" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Spa</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="static/image/Suite2.jpg" alt="Conference Room" class="gallery-image">
+                <div class="overlay">
+                    <p class="overlay-text">Conference Room</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block style %}
+
+/* Gallery Section */
+.gallery-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+}
+
+
+
+.section-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+.gallery-item {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.1);
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+{% endblock style %}
+
